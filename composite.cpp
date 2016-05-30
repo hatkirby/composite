@@ -23,7 +23,10 @@ int main(int argc, char** argv)
   {
     std::cout << "Generating..." << std::endl;
     auto nq = database.nouns().with_stress({{true, false, false}}).random().limit(1).run().front();
-    std::string output = "full metal " + nq.singular_form();
+    std::string noun = nq.singular_form();
+    noun[0] = std::toupper(noun[0]);
+    
+    std::string output = "Full Metal " + noun;
     std::cout << output << std::endl;
     
     twitter::tweet sent;
