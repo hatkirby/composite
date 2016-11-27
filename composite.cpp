@@ -29,11 +29,12 @@ int main(int argc, char** argv)
     std::string output = "Full Metal " + noun;
     std::cout << output << std::endl;
     
-    twitter::tweet sent;
-    twitter::response resp = client.updateStatus(output, sent);
-    if (resp != twitter::response::ok)
+    try
     {
-      std::cout << "Twitter error: " << resp << std::endl;
+      client.updateStatus(output);
+    } catch (const twitter::twitter_error& e)
+    {
+      std::cout << "Twitter error: " << e.what() << std::endl;
     }
     
     std::cout << "Waiting..." << std::endl;
