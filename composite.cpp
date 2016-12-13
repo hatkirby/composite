@@ -8,7 +8,14 @@
 
 int main(int argc, char** argv)
 {
-  YAML::Node config = YAML::LoadFile("config.yml");
+  if (argc != 2)
+  {
+    std::cout << "usage: composite [configfile]" << std::endl;
+    return -1;
+  }
+
+  std::string configfile(argv[1]);
+  YAML::Node config = YAML::LoadFile(configfile);
     
   twitter::auth auth;
   auth.setConsumerKey(config["consumer_key"].as<std::string>());
@@ -17,7 +24,7 @@ int main(int argc, char** argv)
   auth.setAccessSecret(config["access_secret"].as<std::string>());
   
   twitter::client client(auth);
-  verbly::data database("data.sqlite3");
+  verbly::data database(config["verbly_datafile"].as<std::string>());
     
   for (;;)
   {
